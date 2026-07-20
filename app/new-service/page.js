@@ -76,7 +76,7 @@ function NewServiceContent() {
     }
     
     // WhatsApp Message Template
-    const whatsappMessage = `أهلاً بك ${customerName ? 'أستاذ/ة ' + customerName : 'عميلنا العزيز'} في مركز الخير برو 🛠️\nسعدنا بزيارتك لنا وثقتك بنا لصيانة سيارتك ذات اللوحة (${plate}). 🚗\n\nنحن نهتم بك وبمركبتك، ونسعى دائماً لتقديم أفضل خدمة لضمان سلامتك وراحتك على الطريق. ✨\nلأي استفسار، نحن دائماً في خدمتك!`;
+    const whatsappMessage = `أهلاً بك ${customerName ? 'أستاذ/ة ' + customerName : 'عميلنا العزيز'} في مركز الخير برو 🛠️\nسعدنا بزيارتك لنا وثقتك بنا لصيانة سيارتك ذات اللوحة (${plate}). 🚗\n\nلقد أصبحت الآن من عملائنا المميزين، ولأننا نهتم بك وبمركبتك، نسعى دائماً لتقديم أفضل خدمة لضمان سلامتك وراحتك على الطريق. ✨\nلأي استفسار، نحن دائماً في خدمتك!`;
     const whatsappUrl = `https://wa.me/${formattedPhone.replace(/\+/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
