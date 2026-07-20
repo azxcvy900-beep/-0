@@ -55,139 +55,174 @@ function SearchPageContent() {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8 bg-slate-50" dir="rtl">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen relative overflow-hidden bg-slate-50 p-4 sm:p-6 lg:p-8" dir="rtl">
+      
+      {/* Background Blurs */}
+      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-100/50 to-transparent pointer-events-none" />
+      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-300/20 rounded-full blur-[100px] pointer-events-none mix-blend-multiply" />
+
+      <div className="max-w-3xl mx-auto relative z-10">
         
         {/* Header */}
-        <div className="flex items-center mb-6">
-          <Link href="/" className="p-2 bg-white rounded-full shadow-sm text-slate-600 hover:text-blue-600 transition-colors">
+        <div className="flex items-center mb-8 pt-4">
+          <Link href="/" className="p-3 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 text-slate-600 hover:text-blue-600 hover:bg-white transition-all hover:scale-105 active:scale-95">
             <ArrowRight size={24} />
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mr-4">بحث السجلات</h1>
+          <div className="mr-5">
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">بحث السجلات</h1>
+            <p className="text-slate-500 mt-1 font-medium">استعلم عن تاريخ المركبات بسهولة</p>
+          </div>
         </div>
 
         {/* Search Bar */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex">
+        <div className="bg-white/80 backdrop-blur-xl p-3 sm:p-4 rounded-[2rem] shadow-xl shadow-blue-900/5 border border-white flex relative group transition-all duration-300 focus-within:shadow-2xl focus-within:shadow-blue-500/10 focus-within:bg-white mb-8">
           <input 
             type="text" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="ابحث برقم الجوال أو اللوحة..."
-            className="flex-1 text-lg p-3 outline-none bg-transparent"
+            placeholder="أدخل رقم الجوال أو اللوحة..."
+            className="flex-1 text-lg p-3 sm:px-6 outline-none bg-transparent text-slate-800 placeholder:text-slate-400 font-medium"
           />
           <button 
             onClick={() => handleSearch()}
             disabled={isSearching}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl flex items-center justify-center transition-colors"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all shadow-md active:scale-95 disabled:opacity-70"
           >
-            {isSearching ? <Loader2 size={24} className="animate-spin" /> : <SearchIcon size={24} />}
+            {isSearching ? <Loader2 size={26} className="animate-spin" /> : <SearchIcon size={26} />}
           </button>
         </div>
 
         {/* Results */}
         {hasSearched && !isSearching && !result && (
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-slate-100">
-            <p className="text-slate-500 text-lg mb-4">لم يتم العثور على أي مركبة بهذا الرقم.</p>
+          <div className="bg-white/60 backdrop-blur-lg rounded-[2rem] p-10 text-center shadow-lg border border-white/50 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5">
+              <SearchIcon size={32} className="text-slate-400" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-800 mb-2">لم نجد هذه المركبة</h3>
+            <p className="text-slate-500 mb-6">تأكد من الرقم أو قم بإضافتها كمركبة جديدة</p>
             <Link 
               href={`/new-service?phone=${searchTerm}`}
-              className="inline-flex items-center text-blue-600 font-bold hover:underline text-lg"
+              className="inline-flex items-center bg-white text-blue-600 px-6 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors border border-blue-100 shadow-sm hover:shadow"
             >
-              <Plus size={20} className="ml-1" />
+              <Plus size={20} className="ml-2" />
               إضافة مركبة جديدة
             </Link>
           </div>
         )}
 
         {result && (
-          <div className="space-y-6">
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
             
             {/* Customer Info Card */}
-            <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold text-slate-800 mb-1">
-                  {result.vehicle.customerName || "عميل بدون اسم"}
-                </h2>
-                <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-x-reverse text-slate-600">
-                  <span className="flex items-center mt-1">
-                    <span className="font-medium mr-1 text-slate-500">الجوال:</span> {result.vehicle.phoneNumber}
-                  </span>
-                  <span className="flex items-center mt-1">
-                    <span className="font-medium mr-1 text-slate-500">اللوحة:</span> {result.vehicle.licensePlate}
-                  </span>
-                </div>
-              </div>
+            <div className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-xl border border-white p-6 sm:p-8 rounded-[2rem] shadow-xl shadow-blue-900/5 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[100px] transition-all duration-500 group-hover:bg-blue-500/10" />
               
-              <Link 
-                href={`/new-service?phone=${result.vehicle.phoneNumber}&name=${result.vehicle.customerName || ''}&plate=${result.vehicle.licensePlate}`}
-                className="mt-4 sm:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-bold flex items-center justify-center transition-colors shadow-sm"
-              >
-                <Plus size={20} className="ml-2" />
-                صيانة جديدة لهذه السيارة
-              </Link>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between relative z-10">
+                <div>
+                  <h2 className="text-2xl font-black text-slate-800 mb-2">
+                    {result.vehicle.customerName || "عميل غير مسجل الاسم"}
+                  </h2>
+                  <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-x-reverse text-slate-600 font-medium">
+                    <span className="flex items-center mt-2 bg-white/60 px-3 py-1.5 rounded-lg border border-slate-100">
+                      <span className="text-slate-400 mr-2 text-sm">الجوال</span> {result.vehicle.phoneNumber}
+                    </span>
+                    <span className="flex items-center mt-2 bg-white/60 px-3 py-1.5 rounded-lg border border-slate-100">
+                      <span className="text-slate-400 mr-2 text-sm">اللوحة</span> {result.vehicle.licensePlate}
+                    </span>
+                  </div>
+                </div>
+                
+                <Link 
+                  href={`/new-service?phone=${result.vehicle.phoneNumber}&name=${result.vehicle.customerName || ''}&plate=${result.vehicle.licensePlate}`}
+                  className="mt-6 sm:mt-0 bg-white hover:bg-blue-50 text-blue-600 border border-blue-100 px-6 py-4 rounded-2xl font-bold flex items-center justify-center transition-all shadow-sm hover:shadow active:scale-95 group/btn"
+                >
+                  <Plus size={22} className="ml-2 group-hover/btn:scale-110 transition-transform" />
+                  تسجيل صيانة
+                </Link>
+              </div>
             </div>
 
             {/* Service History */}
-            <h3 className="text-xl font-bold text-slate-800 mt-8 mb-4">سجل الصيانة ({result.services.length})</h3>
-            
-            <div className="space-y-4">
-              {result.services.length === 0 ? (
-                <p className="text-slate-500">لا يوجد سجل صيانة سابق لهذه السيارة.</p>
-              ) : (
-                result.services.map((service) => {
-                  const isExpanded = expandedService === service.id;
-                  
-                  return (
-                    <div 
-                      key={service.id} 
-                      className={`bg-white rounded-2xl border transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md ${isExpanded ? 'border-blue-300' : 'border-slate-200'}`}
-                    >
-                      {/* Accordion Header */}
-                      <button 
-                        onClick={() => toggleAccordion(service.id)}
-                        className="w-full text-right p-5 flex items-center justify-between focus:outline-none"
+            <div>
+              <div className="flex items-center mb-6 pl-2">
+                <h3 className="text-2xl font-black text-slate-800">سجل الصيانة</h3>
+                <span className="mr-3 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">
+                  {result.services.length} عمليات
+                </span>
+              </div>
+              
+              <div className="space-y-4">
+                {result.services.length === 0 ? (
+                  <div className="bg-white/60 backdrop-blur-md rounded-2xl p-8 text-center border border-white">
+                    <p className="text-slate-500 font-medium">المركبة مسجلة ولكن لا يوجد لها أي سجل صيانة حتى الآن.</p>
+                  </div>
+                ) : (
+                  result.services.map((service, index) => {
+                    const isExpanded = expandedService === service.id;
+                    
+                    return (
+                      <div 
+                        key={service.id} 
+                        className={`bg-white/80 backdrop-blur-lg rounded-[1.5rem] transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md border border-white/80 ${isExpanded ? 'ring-2 ring-blue-500/20 my-6' : ''}`}
+                        style={{ animationDelay: `${index * 100}ms` }}
                       >
-                        <div className="flex flex-col sm:flex-row sm:items-center">
-                          <div className="flex items-center text-blue-700 font-bold text-lg mb-2 sm:mb-0 sm:ml-6">
-                            <Calendar size={20} className="ml-2" />
-                            {formatDate(service.serviceDate)}
-                          </div>
-                          
-                          <div className="flex items-center text-slate-600 font-medium">
-                            <Hash size={18} className="ml-1 text-slate-400" />
-                            العداد: {service.currentMileage.toLocaleString()} كم
-                          </div>
-                        </div>
-                        
-                        <div className="text-slate-400">
-                          {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-                        </div>
-                      </button>
-                      
-                      {/* Accordion Body */}
-                      {isExpanded && (
-                        <div className="px-5 pb-5 pt-2 border-t border-slate-100 bg-slate-50">
-                          <div className="mb-4">
-                            <h4 className="text-sm font-bold text-slate-500 mb-2 flex items-center">
-                              <PenTool size={16} className="ml-1" /> تفاصيل الصيانة:
-                            </h4>
-                            <p className="text-slate-800 leading-relaxed whitespace-pre-wrap font-medium">
-                              {service.serviceDescription}
-                            </p>
-                          </div>
-                          
-                          {service.nextServiceMileage && (
-                            <div className="inline-block bg-white border border-slate-200 rounded-lg px-4 py-2">
-                              <span className="text-slate-500 text-sm">ممشى الصيانة القادمة: </span>
-                              <span className="font-bold text-blue-600">{service.nextServiceMileage.toLocaleString()} كم</span>
+                        {/* Accordion Header */}
+                        <button 
+                          onClick={() => toggleAccordion(service.id)}
+                          className={`w-full text-right p-5 sm:p-6 flex items-center justify-between focus:outline-none transition-colors ${isExpanded ? 'bg-blue-50/50' : 'hover:bg-slate-50/80'}`}
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center">
+                            <div className="flex items-center text-blue-700 font-black text-lg mb-2 sm:mb-0 sm:ml-8">
+                              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center ml-3 text-blue-600">
+                                <Calendar size={20} />
+                              </div>
+                              {formatDate(service.serviceDate)}
                             </div>
-                          )}
+                            
+                            <div className="flex items-center text-slate-600 font-bold bg-slate-100/80 px-4 py-2 rounded-xl">
+                              <Hash size={18} className="ml-2 text-slate-400" />
+                              العداد: {service.currentMileage.toLocaleString()} كم
+                            </div>
+                          </div>
+                          
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isExpanded ? 'bg-blue-100 text-blue-600 rotate-180' : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'}`}>
+                            <ChevronDown size={24} />
+                          </div>
+                        </button>
+                        
+                        {/* Accordion Body */}
+                        <div 
+                          className={`grid transition-all duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                        >
+                          <div className="overflow-hidden">
+                            <div className="p-6 pt-2 border-t border-slate-100 bg-gradient-to-b from-blue-50/30 to-transparent">
+                              <div className="mb-6 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                                <h4 className="text-sm font-bold text-blue-600 mb-3 flex items-center">
+                                  <PenTool size={16} className="ml-2" /> 
+                                  الخدمات المقدمة:
+                                </h4>
+                                <p className="text-slate-700 leading-relaxed whitespace-pre-wrap font-medium text-lg">
+                                  {service.serviceDescription}
+                                </p>
+                              </div>
+                              
+                              {service.nextServiceMileage && (
+                                <div className="inline-flex items-center bg-indigo-50 border border-indigo-100 rounded-xl px-5 py-3">
+                                  <span className="text-indigo-400 font-medium mr-1 text-sm ml-3">موعد الزيت القادم: </span>
+                                  <span className="font-black text-indigo-700 text-lg flex items-center">
+                                    {service.nextServiceMileage.toLocaleString()} كم
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             </div>
 
           </div>
