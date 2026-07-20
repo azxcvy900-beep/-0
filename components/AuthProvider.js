@@ -15,7 +15,13 @@ export default function AuthProvider({ children }) {
     if (auth === "true") {
       setIsAuthenticated(true);
     }
-    setIsChecking(false);
+    
+    // Splash screen delay of 800ms
+    const timer = setTimeout(() => {
+      setIsChecking(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLogin = (e) => {
@@ -32,8 +38,18 @@ export default function AuthProvider({ children }) {
 
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Loader2 className="animate-spin text-blue-600" size={48} />
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse" />
+        
+        {/* Logo and Animation */}
+        <div className="relative z-10 flex flex-col items-center animate-in zoom-in duration-700 fade-in">
+          <img src="/logo.jpg" alt="الخير" className="w-32 h-32 rounded-[2rem] shadow-2xl mb-6 border border-white" />
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-3">الخير برو</h1>
+          <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden relative">
+             <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-blue-600 to-indigo-600 animate-pulse" />
+          </div>
+        </div>
       </div>
     );
   }
