@@ -1,9 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { PlusCircle, Search, Bell } from "lucide-react";
+import { PlusCircle, Search, Bell, Share2 } from "lucide-react";
 
 export default function Home() {
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'الخير برو',
+          text: 'تطبيق إدارة ورشة الخير برو لصيانة السيارات',
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('تم نسخ رابط التطبيق!');
+      }
+    } catch (error) {
+      console.log('Error sharing', error);
+    }
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-slate-50 flex flex-col items-center justify-center" dir="rtl">
@@ -17,6 +34,15 @@ export default function Home() {
         className="absolute inset-0 z-0 opacity-[0.04] bg-no-repeat bg-center bg-contain pointer-events-none blur-[1px]"
         style={{ backgroundImage: 'url(/logo.jpg)' }}
       />
+
+      {/* Top Left Share Button */}
+      <button 
+        onClick={handleShare}
+        className="absolute top-6 left-6 flex items-center justify-center p-3 rounded-2xl bg-white/80 backdrop-blur-md border border-slate-200/60 hover:bg-white text-slate-500 hover:text-blue-600 transition-all hover:scale-105 active:scale-95 shadow-sm group z-20"
+        title="مشاركة التطبيق"
+      >
+        <Share2 size={22} className="group-hover:animate-pulse" />
+      </button>
 
       {/* Top Right Customer Reminder Icon */}
       <Link 
