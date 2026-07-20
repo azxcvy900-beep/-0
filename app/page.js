@@ -1,9 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import { PlusCircle, Search, Bell, Share2 } from "lucide-react";
+import { PlusCircle, Search, Bell, Share2, Download } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
+
+  useEffect(() => {
+    // Check if already installed (standalone mode)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (isStandalone) {
+      setIsInstallable(false);
+      return;
+    }
+
+    // Check for iOS Safari
+    const ua = window.navigator.userAgent;
+    const isIPad = !!ua.match(/iPad/i);
+    const isIPhone = !!ua.match(/iPhone/i);
+    const isWebKit = !!ua.match(/WebKit/i);
+    const isChrome = !!ua.match(/CriOS/i);
+    
+    if ((isIPad || isIPhone) && isWebKit && !isChrome) {
+      setIsIOS(true);
+      setIsInstallable(true);
+    }
+
+    // Handle standard beforeinstallprompt (Android/Chrome/Edge)
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setIsInstallable(false);
+      }
+      setDeferredPrompt(null);
+    } else if (isIOS) {
+      setShowIOSInstructions(true);
+      setTimeout(() => setShowIOSInstructions(false), 8000); // Hide instructions after 8 seconds
+    }
+  };
 
   const handleShare = async () => {
     try {
@@ -35,14 +85,41 @@ export default function Home() {
         style={{ backgroundImage: 'url(/logo.jpg)' }}
       />
 
-      {/* Top Left Share Button */}
-      <button 
-        onClick={handleShare}
-        className="absolute top-6 left-6 flex items-center justify-center p-3 rounded-2xl bg-white/80 backdrop-blur-md border border-slate-200/60 hover:bg-white text-slate-500 hover:text-blue-600 transition-all hover:scale-105 active:scale-95 shadow-sm group z-20"
-        title="مشاركة التطبيق"
-      >
-        <Share2 size={22} className="group-hover:animate-pulse" />
-      </button>
+      {/* Top Left Buttons */}
+      <div className="absolute top-6 left-6 flex items-center gap-3 z-20">
+        
+        {/* Share Button */}
+        <button 
+          onClick={handleShare}
+          className="flex items-center justify-center p-3 rounded-2xl bg-white/80 backdrop-blur-md border border-slate-200/60 hover:bg-white text-slate-500 hover:text-blue-600 transition-all hover:scale-105 active:scale-95 shadow-sm group"
+          title="مشاركة التطبيق"
+        >
+          <Share2 size={22} className="group-hover:animate-pulse" />
+        </button>
+
+        {/* Install Button (Visible only if not installed) */}
+        {isInstallable && (
+          <button 
+            onClick={handleInstallClick}
+            className="flex items-center justify-center p-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-600/30 group relative"
+            title="تثبيت التطبيق"
+          >
+            <Download size={22} className="group-hover:animate-bounce" />
+            
+            {/* iOS Instructions Tooltip/Popup */}
+            {showIOSInstructions && (
+              <div className="absolute top-full mt-4 left-0 w-64 bg-slate-800 text-white text-sm p-4 rounded-xl shadow-2xl animate-in fade-in slide-in-from-top-2 pointer-events-none">
+                <div className="absolute -top-2 left-4 w-4 h-4 bg-slate-800 rotate-45" />
+                <p className="font-bold mb-1 text-blue-300">لتثبيت التطبيق على الآيفون:</p>
+                <ol className="list-decimal list-inside space-y-1 text-slate-300">
+                  <li>اضغط على أيقونة المشاركة <Share2 size={12} className="inline mx-1" /> بالأسفل</li>
+                  <li>اختر <strong>"إضافة للشاشة الرئيسية"</strong> <br/><span className="text-xs text-slate-400">(Add to Home Screen)</span></li>
+                </ol>
+              </div>
+            )}
+          </button>
+        )}
+      </div>
 
       {/* Top Right Customer Reminder Icon */}
       <Link 
