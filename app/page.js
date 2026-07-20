@@ -1,20 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PlusCircle, Search, Bell, Users } from "lucide-react";
-import { getTotalCustomersCount } from "@/lib/db";
+import { PlusCircle, Search, Bell } from "lucide-react";
 
 export default function Home() {
-  const [totalCustomers, setTotalCustomers] = useState("...");
-
-  useEffect(() => {
-    async function fetchCount() {
-      const count = await getTotalCustomersCount();
-      setTotalCustomers(count);
-    }
-    fetchCount();
-  }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-slate-50 flex flex-col items-center justify-center" dir="rtl">
@@ -49,17 +38,9 @@ export default function Home() {
           
           <div className="bg-slate-50 p-4 rounded-2xl mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-500 group-hover:bg-blue-50 group-hover:border-blue-100 relative">
             <Search size={40} className="text-slate-400 group-hover:text-blue-600 transition-colors duration-300" />
-            
-            {/* Total Customers Badge */}
-            <div className="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md flex items-center border-2 border-white">
-              <Users size={12} className="mr-1" />
-              {totalCustomers}
-            </div>
           </div>
           <span className="text-3xl font-black text-slate-700 tracking-tight">بحث السجلات</span>
-          <p className="text-slate-500 mt-2 font-medium flex items-center bg-slate-100/50 px-3 py-1 rounded-lg">
-             إجمالي العملاء: <strong className="text-blue-600 ml-1 mr-1">{totalCustomers}</strong>
-          </p>
+          <p className="text-slate-400 mt-2 font-medium">استعلام عن تاريخ السيارات</p>
         </Link>
 
         <Link 

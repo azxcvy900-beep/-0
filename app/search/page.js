@@ -2,8 +2,8 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { searchVehicles } from "@/lib/db";
-import { ArrowRight, Search as SearchIcon, Plus, ChevronDown, ChevronUp, Loader2, Calendar, PenTool, Hash, FileText } from "lucide-react";
+import { searchVehicles, getTotalCustomersCount } from "@/lib/db";
+import { ArrowRight, Search as SearchIcon, Plus, ChevronDown, ChevronUp, Loader2, Calendar, PenTool, Hash, FileText, Users } from "lucide-react";
 import Link from "next/link";
 
 function SearchPageContent() {
@@ -15,6 +15,7 @@ function SearchPageContent() {
   const [isSearching, setIsSearching] = useState(false);
   const [result, setResult] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [totalCustomers, setTotalCustomers] = useState("...");
   
   // Accordion state - stores the ID of the expanded service
   const [expandedService, setExpandedService] = useState(null);
@@ -23,6 +24,12 @@ function SearchPageContent() {
     if (initialQuery) {
       handleSearch(initialQuery);
     }
+    
+    async function fetchCount() {
+      const count = await getTotalCustomersCount();
+      setTotalCustomers(count);
+    }
+    fetchCount();
   }, [initialQuery]);
 
   const handleSearch = async (queryToSearch = searchTerm) => {
@@ -64,13 +71,25 @@ function SearchPageContent() {
       <div className="max-w-3xl mx-auto relative z-10">
         
         {/* Header */}
-        <div className="flex items-center mb-8 pt-4">
-          <Link href="/" className="p-3 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 text-slate-600 hover:text-blue-600 hover:bg-white transition-all hover:scale-105 active:scale-95">
-            <ArrowRight size={24} />
-          </Link>
-          <div className="mr-5">
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">بحث السجلات</h1>
-            <p className="text-slate-500 mt-1 font-medium">استعلم عن تاريخ المركبات بسهولة</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pt-4">
+          <div className="flex items-center">
+            <Link href="/" className="p-3 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 text-slate-600 hover:text-blue-600 hover:bg-white transition-all hover:scale-105 active:scale-95">
+              <ArrowRight size={24} />
+            </Link>
+            <div className="mr-5">
+              <h1 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">بحث السجلات</h1>
+              <p className="text-slate-500 mt-1 font-medium">استعلم عن تاريخ المركبات بسهولة</p>
+            </div>
+          </div>
+          
+          <div className="mt-6 sm:mt-0 bg-white/60 backdrop-blur-md border border-slate-200/60 px-5 py-3 rounded-2xl flex items-center shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 ml-3">
+              <Users size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-slate-400">إجمالي العملاء</p>
+              <p className="text-xl font-black text-slate-800">{totalCustomers} <span className="text-sm font-bold text-slate-500">مسجل</span></p>
+            </div>
           </div>
         </div>
 
