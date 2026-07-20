@@ -16,10 +16,10 @@ export default function AuthProvider({ children }) {
       setIsAuthenticated(true);
     }
     
-    // Splash screen delay of 800ms
+    // Splash screen delay to match animation (1200ms)
     const timer = setTimeout(() => {
       setIsChecking(false);
-    }, 800);
+    }, 1200);
     
     return () => clearTimeout(timer);
   }, []);
@@ -38,17 +38,52 @@ export default function AuthProvider({ children }) {
 
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
-        {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse" />
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes drawPath {
+            0% { stroke-dashoffset: 1500; opacity: 1; }
+            50% { stroke-dashoffset: 0; opacity: 1; }
+            80% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 0; transform: scale(1.05); }
+          }
+          @keyframes revealLogo {
+            0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
+            50% { opacity: 0; transform: scale(0.95); filter: blur(5px); }
+            80% { opacity: 1; transform: scale(1); filter: blur(0px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+          }
+          .animate-draw {
+            stroke-dasharray: 1500;
+            stroke-dashoffset: 1500;
+            animation: drawPath 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          }
+          .animate-reveal {
+            opacity: 0;
+            animation: revealLogo 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          }
+        `}} />
         
-        {/* Logo and Animation */}
-        <div className="relative z-10 flex flex-col items-center animate-in zoom-in duration-700 fade-in">
-          <img src="/logo.jpg" alt="الخير" className="w-32 h-32 rounded-[2rem] shadow-2xl mb-6 border border-white" />
-          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-3">الخير برو</h1>
-          <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden relative">
-             <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-blue-600 to-indigo-600 animate-pulse" />
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+        
+        <div className="relative z-10 flex flex-col items-center justify-center w-64 h-64">
+          
+          {/* SVG Line Trace */}
+          <svg className="absolute inset-0 w-full h-full text-blue-600 animate-draw" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            {/* Minimalist Car & Wrench Outline representation */}
+            <path d="M20 60 L25 45 L40 35 L70 35 L85 45 L90 60 Z" />
+            <circle cx="35" cy="65" r="8" />
+            <circle cx="75" cy="65" r="8" />
+            <path d="M45 45 L65 65" strokeWidth="2" />
+            <path d="M60 45 L45 60" strokeWidth="2" />
+          </svg>
+
+          {/* Actual Logo revealing underneath */}
+          <div className="absolute inset-0 w-full h-full animate-reveal flex flex-col items-center justify-center">
+            <img src="/logo.jpg" alt="الخير" className="w-36 h-36 rounded-[2rem] shadow-2xl mb-4 border border-slate-100 object-cover" />
+            <h1 className="text-3xl font-black text-slate-800 tracking-tight">الخير برو</h1>
           </div>
+          
         </div>
       </div>
     );
