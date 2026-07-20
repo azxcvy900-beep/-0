@@ -60,27 +60,27 @@ export default function RemindersPage() {
   const sections = [
     {
       id: 'oneMonth',
-      title: 'شهر واحد (1 - 30 يوم)',
+      title: 'شهر (30 - 60 يوم)',
       data: data?.oneMonth || [],
       color: 'blue',
       icon: <Clock size={24} className="text-blue-500" />,
-      periodText: 'شهر واحد'
+      periodText: 'أكثر من شهر'
     },
     {
       id: 'twoMonths',
-      title: 'شهران (31 - 60 يوم)',
+      title: 'شهران (61 - 90 يوم)',
       data: data?.twoMonths || [],
       color: 'orange',
       icon: <AlertTriangle size={24} className="text-orange-500" />,
-      periodText: 'شهران'
+      periodText: 'أكثر من شهرين'
     },
     {
       id: 'threeMonths',
-      title: 'ثلاثة أشهر فأكثر (61+ يوم)',
+      title: 'ثلاثة أشهر فأكثر (91+ يوم)',
       data: data?.threeMonths || [],
       color: 'red',
       icon: <ShieldCheck size={24} className="text-red-500" />,
-      periodText: 'ثلاثة أشهر فأكثر'
+      periodText: 'أكثر من ثلاثة أشهر'
     }
   ];
 
