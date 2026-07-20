@@ -59,9 +59,7 @@ function NewServiceContent() {
     
     if (result.success) {
       setSuccess(true);
-      setTimeout(() => {
-        router.push("/search?q=" + plate); // redirect to search results of this car
-      }, 1500);
+      // Removed auto-redirect so the user can send WhatsApp msg
     } else {
       alert("حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى.");
       setIsSubmitting(false);
@@ -69,11 +67,51 @@ function NewServiceContent() {
   };
 
   if (success) {
+    // Format phone number to international format for WhatsApp (assuming Saudi Arabia 966)
+    let formattedPhone = phone;
+    if (phone.startsWith('05')) {
+      formattedPhone = '966' + phone.substring(1);
+    } else if (!phone.startsWith('966') && !phone.startsWith('+')) {
+      formattedPhone = '966' + phone;
+    }
+    
+    // WhatsApp Message Template
+    const whatsappMessage = `أهلاً بك ${customerName ? 'أستاذ/ة ' + customerName : 'عميلنا العزيز'} في مركز الخير برو 🛠️\nسعدنا بزيارتك لنا وثقتك بنا لصيانة سيارتك ذات اللوحة (${plate}). 🚗\n\nنحن نهتم بك وبمركبتك، ونسعى دائماً لتقديم أفضل خدمة لضمان سلامتك وراحتك على الطريق. ✨\nلأي استفسار، نحن دائماً في خدمتك!`;
+    const whatsappUrl = `https://wa.me/${formattedPhone.replace(/\+/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
+
     return (
-      <div className="min-h-screen p-6 flex flex-col items-center justify-center bg-slate-50" dir="rtl">
-        <CheckCircle2 size={80} className="text-green-500 mb-4 animate-bounce" />
-        <h2 className="text-2xl font-bold text-slate-800">تم حفظ الصيانة بنجاح!</h2>
-        <p className="text-slate-500 mt-2">جاري تحويلك لسجل السيارة...</p>
+      <div className="min-h-screen p-6 flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden" dir="rtl">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-400/20 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="bg-white/90 backdrop-blur-xl p-8 sm:p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-slate-100 flex flex-col items-center text-center animate-in zoom-in duration-500 relative z-10">
+          <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle2 size={50} className="text-green-500 animate-bounce" />
+          </div>
+          
+          <h2 className="text-3xl font-black text-slate-800 mb-2">تم الحفظ بنجاح!</h2>
+          <p className="text-slate-500 font-medium mb-8">تم تسجيل بيانات الصيانة للسيارة {plate} في النظام.</p>
+          
+          <div className="w-full space-y-4">
+            <a 
+              href={whatsappUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-2xl flex items-center justify-center transition-all shadow-xl shadow-green-500/20 active:scale-95 text-lg"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" className="ml-3"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              إرسال رسالة ترحيبية
+            </a>
+            
+            <button 
+              onClick={() => router.push("/search?q=" + plate)}
+              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-4 rounded-2xl flex items-center justify-center transition-all active:scale-95 text-lg"
+            >
+              <ArrowRight size={20} className="ml-2" />
+              الذهاب لسجل السيارة
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
