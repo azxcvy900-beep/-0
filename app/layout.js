@@ -12,6 +12,10 @@ export const metadata = {
   title: "الخير برو - صيانة السيارات",
   description: "تطبيق إدارة سجلات صيانة السيارات ورشة الخير برو",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
+  }
 };
 
 export const viewport = {

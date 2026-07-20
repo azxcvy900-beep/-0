@@ -71,15 +71,15 @@ export default function AuthProvider({ children }) {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="relative flex flex-col items-center z-10"
             >
-              <div className="relative overflow-hidden rounded-[2.5rem] shadow-[0_0_80px_rgba(37,99,235,0.4)] border-2 border-white/10 mb-6">
-                <img src="/logo.jpg" alt="الخير" className="w-44 h-44 object-cover" />
+              <div className="relative overflow-hidden rounded-[3rem] shadow-[0_0_80px_rgba(37,99,235,0.4)] mb-8">
+                <img src="/logo.jpg" alt="الخير" className="w-56 h-56 object-cover" />
                 
                 {/* Diagonal Light Sweep */}
                 <motion.div 
                   initial={{ x: "-150%" }}
                   animate={{ x: "250%" }}
                   transition={{ delay: 0.5, duration: 1.2, ease: "easeInOut" }}
-                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
                 />
               </div>
               
@@ -87,7 +87,7 @@ export default function AuthProvider({ children }) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="text-4xl font-black text-white tracking-tight drop-shadow-2xl"
+                className="text-5xl font-black text-white tracking-tight drop-shadow-2xl"
               >
                 الخير برو
               </motion.h1>
@@ -109,7 +109,7 @@ export default function AuthProvider({ children }) {
         
         <div className="bg-white/80 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] shadow-2xl w-full max-w-sm border border-white relative z-10 animate-in fade-in zoom-in duration-500">
           <div className="text-center mb-8">
-            <img src="/logo.jpg" alt="الخير" className="w-28 h-28 mx-auto rounded-[2rem] shadow-lg mb-6 border-2 border-white" />
+            <img src="/logo.jpg" alt="الخير" className="w-36 h-36 mx-auto rounded-[2.5rem] shadow-lg mb-6" />
             <h1 className="text-3xl font-black text-slate-800">تسجيل الدخول</h1>
             <p className="text-slate-500 mt-2 font-medium">نظام الإدارة - مركز الخير</p>
           </div>
