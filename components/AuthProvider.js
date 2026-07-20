@@ -71,15 +71,15 @@ export default function AuthProvider({ children }) {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="relative flex flex-col items-center z-10"
             >
-              <div className="relative overflow-hidden rounded-[3rem] shadow-[0_0_80px_rgba(37,99,235,0.4)] mb-8">
-                <img src="/logo.jpg" alt="الخير" className="w-56 h-56 object-cover" />
+              <div className="relative overflow-hidden w-56 h-56 rounded-[2.2rem] shadow-[0_0_80px_rgba(37,99,235,0.4)] mb-8 flex items-center justify-center">
+                <img src="/logo.jpg" alt="الخير" className="absolute w-[135%] h-[135%] max-w-none object-cover" />
                 
                 {/* Diagonal Light Sweep */}
                 <motion.div 
                   initial={{ x: "-150%" }}
                   animate={{ x: "250%" }}
                   transition={{ delay: 0.5, duration: 1.2, ease: "easeInOut" }}
-                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-10"
                 />
               </div>
               
@@ -109,7 +109,9 @@ export default function AuthProvider({ children }) {
         
         <div className="bg-white/80 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] shadow-2xl w-full max-w-sm border border-white relative z-10 animate-in fade-in zoom-in duration-500">
           <div className="text-center mb-8">
-            <img src="/logo.jpg" alt="الخير" className="w-36 h-36 mx-auto rounded-[2.5rem] shadow-lg mb-6" />
+            <div className="w-36 h-36 mx-auto rounded-[1.5rem] shadow-xl mb-6 relative overflow-hidden flex items-center justify-center bg-slate-100 border border-slate-200">
+              <img src="/logo.jpg" alt="الخير" className="absolute w-[135%] h-[135%] max-w-none object-cover" />
+            </div>
             <h1 className="text-3xl font-black text-slate-800">تسجيل الدخول</h1>
             <p className="text-slate-500 mt-2 font-medium">نظام الإدارة - مركز الخير</p>
           </div>
