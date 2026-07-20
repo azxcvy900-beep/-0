@@ -20,7 +20,8 @@ export default function AuthProvider({ children }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username === "الخير" && password === "Aa1234567890Aa") {
+    const user = username.trim();
+    if ((user === "الخير" || user === "الخير برو") && password === "Aa1234567890Aa") {
       localStorage.setItem("al_khair_auth", "true");
       setIsAuthenticated(true);
       setError("");
