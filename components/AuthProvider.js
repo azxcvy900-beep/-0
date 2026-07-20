@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [isChecking, setIsChecking] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +16,21 @@ export default function AuthProvider({ children }) {
     if (auth === "true") {
       setIsAuthenticated(true);
     }
-    setIsChecking(false);
+    
+    // Start exit animation after 1.5 seconds
+    const timer1 = setTimeout(() => {
+      setShowSplash(false);
+    }, 1500);
+
+    // Completely unmount splash screen after exit animation completes (1.5s + 0.6s)
+    const timer2 = setTimeout(() => {
+      setIsChecking(false);
+    }, 2100);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, []);
 
   const handleLogin = (e) => {
@@ -32,9 +47,54 @@ export default function AuthProvider({ children }) {
 
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Loader2 className="animate-spin text-blue-600" size={48} />
-      </div>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div 
+            key="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 bg-[#0b1120] flex items-center justify-center overflow-hidden"
+            dir="rtl"
+          >
+            {/* Cinematic Spotlight */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 0.6, scale: 1 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="absolute w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[120px] pointer-events-none"
+            />
+            
+            <motion.div 
+              initial={{ scale: 0.85, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex flex-col items-center z-10"
+            >
+              <div className="relative overflow-hidden rounded-[2.5rem] shadow-[0_0_80px_rgba(37,99,235,0.4)] border-2 border-white/10 mb-6">
+                <img src="/logo.jpg" alt="الخير" className="w-44 h-44 object-cover" />
+                
+                {/* Diagonal Light Sweep */}
+                <motion.div 
+                  initial={{ x: "-150%" }}
+                  animate={{ x: "250%" }}
+                  transition={{ delay: 0.5, duration: 1.2, ease: "easeInOut" }}
+                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+                />
+              </div>
+              
+              <motion.h1 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+                className="text-4xl font-black text-white tracking-tight drop-shadow-2xl"
+              >
+                الخير برو
+              </motion.h1>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     );
   }
 
