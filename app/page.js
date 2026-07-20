@@ -8,14 +8,15 @@ export default function Home() {
   const [isInstallable, setIsInstallable] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
-  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
     // Check if already installed (standalone mode)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     if (isStandalone) {
       setIsInstallable(false);
-      return;
+    } else {
+      setIsInstallable(true); // Always show if not installed
     }
 
     // Check for iOS Safari
@@ -27,14 +28,12 @@ export default function Home() {
     
     if ((isIPad || isIPhone) && isWebKit && !isChrome) {
       setIsIOS(true);
-      setIsInstallable(true);
     }
 
     // Handle standard beforeinstallprompt (Android/Chrome/Edge)
     const handler = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setIsInstallable(true);
     };
 
     window.addEventListener('beforeinstallprompt', handler);
@@ -43,15 +42,17 @@ export default function Home() {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
+      // Native install prompt available
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         setIsInstallable(false);
       }
       setDeferredPrompt(null);
-    } else if (isIOS) {
-      setShowIOSInstructions(true);
-      setTimeout(() => setShowIOSInstructions(false), 8000); // Hide instructions after 8 seconds
+    } else {
+      // Show fallback instructions for iOS or Chrome without service worker
+      setShowInstructions(true);
+      setTimeout(() => setShowInstructions(false), 10000); // Hide instructions after 10 seconds
     }
   };
 
@@ -106,14 +107,23 @@ export default function Home() {
           >
             <Download size={22} className="group-hover:animate-bounce" />
             
-            {/* iOS Instructions Tooltip/Popup */}
-            {showIOSInstructions && (
+            {/* Instructions Tooltip/Popup */}
+            {showInstructions && (
               <div className="absolute top-full mt-4 left-0 w-64 bg-slate-800 text-white text-sm p-4 rounded-xl shadow-2xl animate-in fade-in slide-in-from-top-2 pointer-events-none">
                 <div className="absolute -top-2 left-4 w-4 h-4 bg-slate-800 rotate-45" />
-                <p className="font-bold mb-1 text-blue-300">لتثبيت التطبيق على الآيفون:</p>
+                <p className="font-bold mb-1 text-blue-300">{isIOS ? 'لتثبيت التطبيق على الآيفون:' : 'لتثبيت التطبيق:'}</p>
                 <ol className="list-decimal list-inside space-y-1 text-slate-300">
-                  <li>اضغط على أيقونة المشاركة <Share2 size={12} className="inline mx-1" /> بالأسفل</li>
-                  <li>اختر <strong>"إضافة للشاشة الرئيسية"</strong> <br/><span className="text-xs text-slate-400">(Add to Home Screen)</span></li>
+                  {isIOS ? (
+                    <>
+                      <li>اضغط على أيقونة المشاركة <Share2 size={12} className="inline mx-1" /> بالأسفل</li>
+                      <li>اختر <strong>"إضافة للشاشة الرئيسية"</strong></li>
+                    </>
+                  ) : (
+                    <>
+                      <li>اضغط على القائمة (الثلاث نقاط) بالأعلى</li>
+                      <li>اختر <strong>"إضافة للشاشة الرئيسية"</strong> أو "تثبيت التطبيق"</li>
+                    </>
+                  )}
                 </ol>
               </div>
             )}
