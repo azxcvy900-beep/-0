@@ -1,13 +1,33 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PlusCircle, Search, Wrench, ShieldCheck, Bell } from "lucide-react";
+import { PlusCircle, Search, Bell, Users } from "lucide-react";
+import { getTotalCustomersCount } from "@/lib/db";
 
 export default function Home() {
+  const [totalCustomers, setTotalCustomers] = useState("...");
+
+  useEffect(() => {
+    async function fetchCount() {
+      const count = await getTotalCustomersCount();
+      setTotalCustomers(count);
+    }
+    fetchCount();
+  }, []);
+
   return (
-    <div className="min-h-screen relative overflow-hidden bg-slate-50 flex flex-col items-center" dir="rtl">
+    <div className="min-h-screen relative overflow-hidden bg-slate-50 flex flex-col items-center justify-center" dir="rtl">
       
       {/* Premium Background Blurs */}
       <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-400/20 rounded-full blur-3xl mix-blend-multiply pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-400/10 rounded-full blur-3xl mix-blend-multiply pointer-events-none" />
+
+      {/* Transparent Watermark Logo */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.04] bg-no-repeat bg-center bg-contain pointer-events-none blur-[1px]"
+        style={{ backgroundImage: 'url(/logo.jpg)' }}
+      />
 
       {/* Top Right Customer Reminder Icon */}
       <Link 
@@ -18,37 +38,28 @@ export default function Home() {
         <span className="text-[11px] font-bold text-orange-600">تذكير العملاء</span>
       </Link>
 
-      {/* Header */}
-      <header className="w-full max-w-md mt-16 mb-12 flex flex-col items-center relative z-10 px-6">
-        <div className="relative group">
-          <div className="absolute inset-0 bg-blue-500 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-          <div className="relative w-28 h-28 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl shadow-2xl flex flex-col items-center justify-center mb-6 border border-white/20 transform transition-transform duration-500 hover:scale-105">
-            <Wrench className="text-white/80 w-8 h-8 mb-1" />
-            <span className="text-white text-3xl font-black tracking-tight">الخير</span>
-          </div>
-        </div>
-        <h1 className="text-4xl font-black text-slate-800 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600">
-          الخير برو
-        </h1>
-        <div className="flex items-center mt-3 text-slate-500 font-medium">
-          <ShieldCheck className="w-5 h-5 mr-1.5 text-blue-500" />
-          <p className="text-lg">نظام الإدارة الذكي</p>
-        </div>
-      </header>
-
       {/* Main Actions */}
-      <main className="w-full max-w-md flex flex-col space-y-6 px-6 relative z-10 pb-12">
+      <main className="w-full max-w-md flex flex-col space-y-6 px-6 relative z-10">
+        
         <Link 
           href="/search" 
           className="group relative flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl border-2 border-slate-100/80 p-10 rounded-[2rem] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-56 overflow-hidden"
         >
           <div className="absolute -left-6 -bottom-6 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-all duration-500" />
           
-          <div className="bg-slate-50 p-4 rounded-2xl mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-500 group-hover:bg-blue-50 group-hover:border-blue-100">
+          <div className="bg-slate-50 p-4 rounded-2xl mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-500 group-hover:bg-blue-50 group-hover:border-blue-100 relative">
             <Search size={40} className="text-slate-400 group-hover:text-blue-600 transition-colors duration-300" />
+            
+            {/* Total Customers Badge */}
+            <div className="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md flex items-center border-2 border-white">
+              <Users size={12} className="mr-1" />
+              {totalCustomers}
+            </div>
           </div>
           <span className="text-3xl font-black text-slate-700 tracking-tight">بحث السجلات</span>
-          <p className="text-slate-400 mt-2 font-medium">استعلام عن تاريخ السيارات</p>
+          <p className="text-slate-500 mt-2 font-medium flex items-center bg-slate-100/50 px-3 py-1 rounded-lg">
+             إجمالي العملاء: <strong className="text-blue-600 ml-1 mr-1">{totalCustomers}</strong>
+          </p>
         </Link>
 
         <Link 

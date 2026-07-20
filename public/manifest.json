@@ -1,0 +1,22 @@
+{
+  "name": "الخير برو",
+  "short_name": "الخير برو",
+  "description": "نظام الإدارة الذكي لمركز الخير لصيانة السيارات",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

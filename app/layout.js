@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/AuthProvider";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       </head>
       <body className={`${cairo.className} bg-slate-50 text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
