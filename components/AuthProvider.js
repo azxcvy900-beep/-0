@@ -38,52 +38,25 @@ export default function AuthProvider({ children }) {
 
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
         <style dangerouslySetInnerHTML={{__html: `
-          @keyframes drawPath {
-            0% { stroke-dashoffset: 1500; opacity: 1; }
-            50% { stroke-dashoffset: 0; opacity: 1; }
-            80% { opacity: 0; transform: scale(1.05); }
-            100% { opacity: 0; transform: scale(1.05); }
+          @keyframes premiumReveal {
+            0% { transform: scale(0.85); opacity: 0; filter: blur(15px); }
+            30% { transform: scale(1.02); opacity: 1; filter: blur(0px); }
+            70% { transform: scale(1); opacity: 1; filter: blur(0px); }
+            100% { transform: scale(1.15); opacity: 0; filter: blur(10px); }
           }
-          @keyframes revealLogo {
-            0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
-            50% { opacity: 0; transform: scale(0.95); filter: blur(5px); }
-            80% { opacity: 1; transform: scale(1); filter: blur(0px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0px); }
-          }
-          .animate-draw {
-            stroke-dasharray: 1500;
-            stroke-dashoffset: 1500;
-            animation: drawPath 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-          }
-          .animate-reveal {
-            opacity: 0;
-            animation: revealLogo 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          .animate-premium {
+            animation: premiumReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
           }
         `}} />
         
-        {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+        {/* Deep luxurious background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] animate-pulse pointer-events-none" />
         
-        <div className="relative z-10 flex flex-col items-center justify-center w-64 h-64">
-          
-          {/* SVG Line Trace */}
-          <svg className="absolute inset-0 w-full h-full text-blue-600 animate-draw" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            {/* Minimalist Car & Wrench Outline representation */}
-            <path d="M20 60 L25 45 L40 35 L70 35 L85 45 L90 60 Z" />
-            <circle cx="35" cy="65" r="8" />
-            <circle cx="75" cy="65" r="8" />
-            <path d="M45 45 L65 65" strokeWidth="2" />
-            <path d="M60 45 L45 60" strokeWidth="2" />
-          </svg>
-
-          {/* Actual Logo revealing underneath */}
-          <div className="absolute inset-0 w-full h-full animate-reveal flex flex-col items-center justify-center">
-            <img src="/logo.jpg" alt="الخير" className="w-36 h-36 rounded-[2rem] shadow-2xl mb-4 border border-slate-100 object-cover" />
-            <h1 className="text-3xl font-black text-slate-800 tracking-tight">الخير برو</h1>
-          </div>
-          
+        <div className="relative z-10 flex flex-col items-center justify-center w-full animate-premium">
+          <img src="/logo.jpg" alt="الخير" className="w-40 h-40 rounded-[2.5rem] shadow-[0_0_50px_rgba(37,99,235,0.3)] mb-5 border-2 border-white/10 object-cover" />
+          <h1 className="text-4xl font-black text-white tracking-tight drop-shadow-lg">الخير برو</h1>
         </div>
       </div>
     );
