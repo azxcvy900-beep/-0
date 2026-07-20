@@ -1,4 +1,5 @@
 import AuthProvider from "@/components/AuthProvider";
+import InstallPWA from "@/components/InstallPWA";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
       <body className={`${cairo.className} bg-slate-50 text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900`}>
         <AuthProvider>
           {children}
+          <InstallPWA />
         </AuthProvider>
       </body>
     </html>
