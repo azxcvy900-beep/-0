@@ -15,13 +15,7 @@ export default function AuthProvider({ children }) {
     if (auth === "true") {
       setIsAuthenticated(true);
     }
-    
-    // Splash screen delay to match animation (1200ms)
-    const timer = setTimeout(() => {
-      setIsChecking(false);
-    }, 1200);
-    
-    return () => clearTimeout(timer);
+    setIsChecking(false);
   }, []);
 
   const handleLogin = (e) => {
@@ -38,26 +32,8 @@ export default function AuthProvider({ children }) {
 
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden" dir="rtl">
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes premiumReveal {
-            0% { transform: scale(0.85); opacity: 0; filter: blur(15px); }
-            30% { transform: scale(1.02); opacity: 1; filter: blur(0px); }
-            70% { transform: scale(1); opacity: 1; filter: blur(0px); }
-            100% { transform: scale(1.15); opacity: 0; filter: blur(10px); }
-          }
-          .animate-premium {
-            animation: premiumReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-          }
-        `}} />
-        
-        {/* Deep luxurious background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] animate-pulse pointer-events-none" />
-        
-        <div className="relative z-10 flex flex-col items-center justify-center w-full animate-premium">
-          <img src="/logo.jpg" alt="الخير" className="w-40 h-40 rounded-[2.5rem] shadow-[0_0_50px_rgba(37,99,235,0.3)] mb-5 border-2 border-white/10 object-cover" />
-          <h1 className="text-4xl font-black text-white tracking-tight drop-shadow-lg">الخير برو</h1>
-        </div>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="animate-spin text-blue-600" size={48} />
       </div>
     );
   }
