@@ -3,8 +3,11 @@ import "./globals.css";
 export const metadata = {
   title: "الخير برو - صيانة السيارات",
   description: "تطبيق إدارة سجلات صيانة السيارات ورشة الخير برو",
-  themeColor: "#2563eb",
   manifest: "/manifest.json",
+};
+
+export const viewport = {
+  themeColor: "#2563eb",
 };
 
 export default function RootLayout({ children }) {

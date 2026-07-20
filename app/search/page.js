@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { searchVehicles } from "@/lib/db";
 import { ArrowRight, Search as SearchIcon, Plus, ChevronDown, ChevronUp, Loader2, Calendar, PenTool, Hash } from "lucide-react";
 import Link from "next/link";
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -195,5 +195,13 @@ export default function SearchPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin w-10 h-10 text-blue-500" /></div>}>
+      <SearchPageContent />
+    </Suspense>
   );
 }

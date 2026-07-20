@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { addServiceRecord, getCustomerNameByPhone } from "@/lib/db";
 import { ArrowRight, Save, Loader2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
-export default function NewService() {
+function NewServiceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -195,5 +195,13 @@ export default function NewService() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function NewService() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin w-10 h-10 text-blue-500" /></div>}>
+      <NewServiceContent />
+    </Suspense>
   );
 }
