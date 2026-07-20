@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlusCircle, Search, Wrench, ShieldCheck } from "lucide-react";
+import { PlusCircle, Search, Wrench, ShieldCheck, Bell } from "lucide-react";
 
 export default function Home() {
   return (
@@ -8,6 +8,15 @@ export default function Home() {
       {/* Premium Background Blurs */}
       <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-400/20 rounded-full blur-3xl mix-blend-multiply pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-400/10 rounded-full blur-3xl mix-blend-multiply pointer-events-none" />
+
+      {/* Top Right Customer Reminder Icon */}
+      <Link 
+        href="/reminders" 
+        className="absolute top-6 right-6 flex flex-col items-center justify-center p-2.5 rounded-2xl bg-orange-50/80 backdrop-blur-md border border-orange-200/50 hover:bg-orange-100 text-orange-500 transition-all hover:scale-105 active:scale-95 shadow-sm group z-20"
+      >
+        <Bell size={22} className="mb-1 group-hover:animate-bounce" />
+        <span className="text-[11px] font-bold text-orange-600">تذكير العملاء</span>
+      </Link>
 
       {/* Header */}
       <header className="w-full max-w-md mt-16 mb-12 flex flex-col items-center relative z-10 px-6">
