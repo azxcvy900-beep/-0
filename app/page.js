@@ -30,6 +30,19 @@ export default function Home() {
       {/* Main Actions */}
       <main className="w-full max-w-md flex flex-col space-y-6 px-6 relative z-10 pb-12">
         <Link 
+          href="/search" 
+          className="group relative flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl border-2 border-slate-100/80 p-10 rounded-[2rem] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-56 overflow-hidden"
+        >
+          <div className="absolute -left-6 -bottom-6 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-all duration-500" />
+          
+          <div className="bg-slate-50 p-4 rounded-2xl mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-500 group-hover:bg-blue-50 group-hover:border-blue-100">
+            <Search size={40} className="text-slate-400 group-hover:text-blue-600 transition-colors duration-300" />
+          </div>
+          <span className="text-3xl font-black text-slate-700 tracking-tight">بحث السجلات</span>
+          <p className="text-slate-400 mt-2 font-medium">استعلام عن تاريخ السيارات</p>
+        </Link>
+
+        <Link 
           href="/new-service" 
           className="group relative flex flex-col items-center justify-center p-10 rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-56 overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-500/30"
         >
@@ -41,19 +54,6 @@ export default function Home() {
           </div>
           <span className="text-3xl font-black text-white tracking-tight drop-shadow-sm">صيانة جديدة</span>
           <p className="text-blue-100/80 mt-2 font-medium">تسجيل مركبة أو عملية صيانة</p>
-        </Link>
-
-        <Link 
-          href="/search" 
-          className="group relative flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl border-2 border-slate-100/80 p-10 rounded-[2rem] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-56 overflow-hidden"
-        >
-          <div className="absolute -left-6 -bottom-6 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-all duration-500" />
-          
-          <div className="bg-slate-50 p-4 rounded-2xl mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-500 group-hover:bg-blue-50 group-hover:border-blue-100">
-            <Search size={40} className="text-slate-400 group-hover:text-blue-600 transition-colors duration-300" />
-          </div>
-          <span className="text-3xl font-black text-slate-700 tracking-tight">بحث السجلات</span>
-          <p className="text-slate-400 mt-2 font-medium">استعلام عن تاريخ السيارات</p>
         </Link>
       </main>
     </div>
