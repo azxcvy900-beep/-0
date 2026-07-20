@@ -174,7 +174,7 @@ export default function Home() {
       {/* Requested Text */}
       <div className="relative z-10 mt-12 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
         <h2 className="text-4xl sm:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-900 drop-shadow-sm">
-          غنيتك يا ابراهيم
+          غنيتك يا ابراهيم وعبود
         </h2>
       </div>
 
