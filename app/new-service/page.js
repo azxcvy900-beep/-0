@@ -17,6 +17,7 @@ function NewServiceContent() {
   const [description, setDescription] = useState("");
   const [currentMileage, setCurrentMileage] = useState("");
   const [oilLifespan, setOilLifespan] = useState("");
+  const [invoiceNumber, setInvoiceNumber] = useState("");
   
   const [isFetchingName, setIsFetchingName] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,7 +53,7 @@ function NewServiceContent() {
 
     setIsSubmitting(true);
     const vehicleData = { phoneNumber: phone, customerName, licensePlate: plate };
-    const serviceData = { serviceDescription: description, currentMileage, oilLifespan };
+    const serviceData = { serviceDescription: description, currentMileage, oilLifespan, invoiceNumber };
 
     const result = await addServiceRecord(vehicleData, serviceData);
     
@@ -146,6 +147,18 @@ function NewServiceContent() {
             </div>
 
             <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent my-8" />
+
+            {/* Invoice Number */}
+            <div className="group">
+              <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">رقم الفاتورة (اختياري)</label>
+              <input 
+                type="text" 
+                value={invoiceNumber}
+                onChange={(e) => setInvoiceNumber(e.target.value)}
+                placeholder="رقم الفاتورة الورقية أو النظامية..."
+                className="w-full text-lg p-4 rounded-2xl border border-slate-200/80 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50/50 focus:bg-white shadow-inner"
+              />
+            </div>
 
             {/* Description */}
             <div className="group">

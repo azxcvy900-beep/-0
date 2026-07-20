@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { searchVehicles } from "@/lib/db";
-import { ArrowRight, Search as SearchIcon, Plus, ChevronDown, ChevronUp, Loader2, Calendar, PenTool, Hash } from "lucide-react";
+import { ArrowRight, Search as SearchIcon, Plus, ChevronDown, ChevronUp, Loader2, Calendar, PenTool, Hash, FileText } from "lucide-react";
 import Link from "next/link";
 
 function SearchPageContent() {
@@ -208,10 +208,20 @@ function SearchPageContent() {
                               </div>
                               
                               {service.nextServiceMileage && (
-                                <div className="inline-flex items-center bg-indigo-50 border border-indigo-100 rounded-xl px-5 py-3">
+                                <div className="inline-flex items-center bg-indigo-50 border border-indigo-100 rounded-xl px-5 py-3 ml-3 mt-3 sm:mt-0">
                                   <span className="text-indigo-400 font-medium mr-1 text-sm ml-3">موعد الزيت القادم: </span>
                                   <span className="font-black text-indigo-700 text-lg flex items-center">
                                     {service.nextServiceMileage.toLocaleString()} كم
+                                  </span>
+                                </div>
+                              )}
+                              
+                              {service.invoiceNumber && (
+                                <div className="inline-flex items-center bg-green-50 border border-green-100 rounded-xl px-5 py-3 mt-3 sm:mt-0">
+                                  <FileText size={18} className="text-green-500 ml-2" />
+                                  <span className="text-green-600 font-medium mr-1 text-sm ml-3">رقم الفاتورة: </span>
+                                  <span className="font-black text-green-700 text-lg">
+                                    {service.invoiceNumber}
                                   </span>
                                 </div>
                               )}
