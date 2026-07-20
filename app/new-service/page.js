@@ -59,7 +59,20 @@ function NewServiceContent() {
     
     if (result.success) {
       setSuccess(true);
-      // Removed auto-redirect so the user can send WhatsApp msg
+      
+      // Auto-open WhatsApp
+      let formattedPhone = phone;
+      if (phone.startsWith('05')) {
+        formattedPhone = '966' + phone.substring(1);
+      } else if (!phone.startsWith('966') && !phone.startsWith('+')) {
+        formattedPhone = '966' + phone;
+      }
+      const whatsappMessage = `أهلاً بك ${customerName ? 'أستاذ/ة ' + customerName : 'عميلنا العزيز'} في مركز الخير برو 🛠️\nسعدنا بزيارتك لنا وثقتك بنا لصيانة سيارتك ذات اللوحة (${plate}). 🚗\n\nلقد أصبحت الآن من عملائنا المميزين، ولأننا نهتم بك وبمركبتك، نسعى دائماً لتقديم أفضل خدمة لضمان سلامتك وراحتك على الطريق. ✨\nلأي استفسار، نحن دائماً في خدمتك!`;
+      const whatsappUrl = `https://wa.me/${formattedPhone.replace(/\+/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Open in new tab
+      window.open(whatsappUrl, '_blank');
+
     } else {
       alert("حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى.");
       setIsSubmitting(false);
